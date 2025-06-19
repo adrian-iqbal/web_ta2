@@ -111,8 +111,8 @@ class TransaksiResource extends Resource
                                                     $barang = \App\Models\Barang::find($state);
                                                     if ($barang) {
                                                         $set('kode_barang', $barang->kode_barang);
-                                                        $set('harga', $barang->harga_jual);
-                                                        $set('subtotal', $barang->harga_jual * ($get('quantity') ?? 1));
+                                                        $set('harga', (int) $barang->harga_jual);
+                                                        $set('subtotal', (int) $barang->harga_jual * ($get('quantity') ?? 1));
                                                     }
                                                 })
 
@@ -154,13 +154,13 @@ class TransaksiResource extends Resource
 
                                             TextInput::make('harga')
                                                 ->label('Harga')
-                                                ->numeric()
                                                 ->readOnly()
                                                 ->reactive()
                                                 ->prefix('Rp')
-                                                ->formatStateUsing(fn($state) => $state !== null ? 'Rp.' . number_format($state, 0, ',', '.') : null)
-                                                ->dehydrateStateUsing(fn($state) => (int) preg_replace('/[^0-9]/', '', $state))
+                                                ->formatStateUsing(fn($state) => $state ? number_format((int) $state, 0, ',', '.') : '0')
+                                                ->dehydrateStateUsing(fn($state) => (int) preg_replace('/[^0-9]/', '', $state ?? 0))
                                                 ->afterStateUpdated(fn(callable $get, callable $set) => self::updateFormData($get, $set)),
+
 
                                             TextInput::make('subtotal')
                                                 ->label('Subtotal')

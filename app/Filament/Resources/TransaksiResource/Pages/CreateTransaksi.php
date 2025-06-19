@@ -23,7 +23,7 @@ class CreateTransaksi extends CreateRecord
     protected function afterCreate(): void
     {
         $record = $this->record;
-        foreach ($record->transaksiItems as $item) {
+        foreach ($record->transaksiItems ?? [] as $item) {
             $barang = $item->barang;
             if ($barang && $barang->stok >= $item->quantity) {
                 $barang->decrement('stok', $item->quantity);
