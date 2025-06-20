@@ -35,6 +35,8 @@ class TransaksiResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+  
+
     public static function getNavigationUrl(): string
     {
         return static::getUrl('create');
@@ -134,8 +136,12 @@ class TransaksiResource extends Resource
                                                         return 'Tidak ada gambar';
                                                     }
 
-                                                    // Ambil URL dari storage disk (bukan pakai asset())
-                                                    $url = env('AWS_URL') . '/' . $barang->gambar;
+                                                    // Ambil URL menggunakan storage (bukan dari env)
+                                                    try {
+                                                      $url = config('filesystems.disks.gambar-barang.url') . '/' . $barang->gambar;
+                                                    } catch (\Exception $e) {
+                                                        return 'Gagal ambil gambar: ' . $e->getMessage();
+                                                    }
 
                                                     return new HtmlString("
             <div style='
