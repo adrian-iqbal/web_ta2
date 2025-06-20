@@ -22,6 +22,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\Storage;
 
 
 class TransaksiResource extends Resource
@@ -122,26 +123,34 @@ class TransaksiResource extends Resource
                                         ->schema([
                                             Placeholder::make('gambar')
                                                 ->label('Gambar')
-                                                ->disk('gambar-barang')
                                                 ->content(function (callable $get) {
-                                                    $barang_id = $get('barang_id');
-                                                    $barang = \App\Models\Barang::find($barang_id);
-                                                    if (!$barang || !$barang->gambar) return 'Tidak ada gambar';
-                                                    $url = asset('storage/' . $barang->gambar);
-                                                    return new \Illuminate\Support\HtmlString("
-                            <div style='
-                                width: 100px;
-                                height: 100px;
-                                border: 1px solid #ccc;
-                                border-radius: 6px;
-                                overflow: hidden;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                            '>
-                                <img src='{$url}' style='max-width: 100%; max-height: 100%; object-fit: contain;' />
-                            </div>
-                        ");
+                                                    $barangId = $get('barang_id');
+
+                                                    if (!$barangId) return 'Barang belum dipilih';
+
+                                                    $barang = \App\Models\Barang::find($barangId);
+
+                                                    if (!$barang || !$barang->gambar) {
+                                                        return 'Tidak ada gambar';
+                                                    }
+
+                                                    // Ambil URL dari storage disk (bukan pakai asset())
+                                                    $url = env('AWS_URL') . '/' . $barang->gambar;
+
+                                                    return new HtmlString("
+            <div style='
+                width: 100px;
+                height: 100px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            '>
+                <img src='{$url}' style='max-width: 100%; max-height: 100%; object-fit: contain;' />
+            </div>
+        ");
                                                 }),
 
                                             TextInput::make('quantity')
