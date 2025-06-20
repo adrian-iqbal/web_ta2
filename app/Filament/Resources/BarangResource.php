@@ -149,7 +149,7 @@ class BarangResource extends Resource
                             ->openable()
                             ->hint('Ukuran maksimal 300KB')
                             ->columnSpanFull()
-                            ->disk('r2')
+                            ->disk('gambar-barang') // <-- Pastikan ini sesuai dengan disk yang kamu buat di config/filesystems.php
                             ->visibility('public')
                             ->image()
                     ]),
