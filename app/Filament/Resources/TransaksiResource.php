@@ -122,6 +122,7 @@ class TransaksiResource extends Resource
                                         ->schema([
                                             Placeholder::make('gambar')
                                                 ->label('Gambar')
+                                                ->disk('gambar-barang')
                                                 ->content(function (callable $get) {
                                                     $barang_id = $get('barang_id');
                                                     $barang = \App\Models\Barang::find($barang_id);
