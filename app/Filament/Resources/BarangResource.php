@@ -148,7 +148,10 @@ class BarangResource extends Resource
                             ->downloadable()
                             ->openable()
                             ->hint('Ukuran maksimal 300KB')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->disk('r2')
+                            ->visibility('public')
+                            ->image()
                     ]),
             ]);
     }
@@ -165,7 +168,7 @@ class BarangResource extends Resource
             )
             ->columns([
                 ImageColumn::make('gambar')
-                    ->label('Gambar')
+                    ->label('Gambar')->disk('r2')
                     ->height(60)
                     ->width(60),
                 TextColumn::make('kode_barang')->label('Kode')->searchable(),

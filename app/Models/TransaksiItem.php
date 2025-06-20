@@ -18,6 +18,8 @@ class TransaksiItem extends Model
 
     public function barang(): BelongsTo
     {
-        return $this->belongsTo(Barang::class);
+        return $this->belongsTo(Barang::class)->withDefault([
+            'nama_barang' => 'Barang Tidak Ditemukan',
+        ]);
     }
 }
