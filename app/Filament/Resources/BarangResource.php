@@ -168,7 +168,8 @@ class BarangResource extends Resource
             )
             ->columns([
                 ImageColumn::make('gambar')
-                    ->label('Gambar')->disk('r2')
+                    ->label('Gambar')
+                    ->disk('gambar-barang')
                     ->height(60)
                     ->width(60),
                 TextColumn::make('kode_barang')->label('Kode')->searchable(),
