@@ -55,7 +55,6 @@ class SatuanResource extends Resource
             ]);
     }
 
-
     public static function table(Table $table): Table
     {
         return $table
@@ -87,7 +86,6 @@ class SatuanResource extends Resource
                         ->modalDescription('Kamu yakin menghapus satuan ini ?')
                         ->modalSubmitActionLabel('Yes')
                         ->modalCloseButton(false),
-
                 ])
                     ->button()
                     ->label('Aksi')

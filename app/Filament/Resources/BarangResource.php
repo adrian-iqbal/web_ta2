@@ -36,8 +36,6 @@ class BarangResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
-
-
     public static function getNavigationLabel(): string
     {
         return 'Data Barang';
@@ -62,18 +60,12 @@ class BarangResource extends Resource
 
                     // Kolom Kiri
                     FormSection::make('Detail Barang')
-                        ->columnSpan(1) // ⬅️ ini penting
+                        ->columnSpan(1)
                         ->extraAttributes(['class' => 'rounded border shadow'])
                         ->schema([
                             TextInput::make('kode_barang')
                                 ->label('Kode Barang')
                                 ->placeholder('Masukkan kode barang')
-                                // ->default(function () {
-                                //     $last = Barang::latest('id')->first();
-                                //     $next = $last ? ((int) $last->kode_barang) + 1 : 1;
-                                //     return str_pad($next, 5, '0', STR_PAD_LEFT);
-                                // })
-                                // ->disabled() // Supaya user tidak bisa ubah
                                 ->numeric()
                                 ->dehydrated() // Supaya tetap tersimpan ke database
                                 ->required(),
@@ -110,7 +102,7 @@ class BarangResource extends Resource
 
                     // Kolom Kanan
                     FormSection::make('Detail Harga')
-                        ->columnSpan(1) // ⬅️ ini juga penting
+                        ->columnSpan(1) 
                         ->extraAttributes(['class' => 'rounded border shadow'])
                         ->schema([
                             TextInput::make('harga_beli')
@@ -135,7 +127,7 @@ class BarangResource extends Resource
                         ]),
                 ]),
 
-                // Di bawahnya: Gambar Barang
+                // FormSection untuk upload gambar
                 FormSection::make('Gambar Barang')
                     ->extraAttributes(['class' => 'rounded border shadow'])
                     ->schema([
@@ -155,7 +147,6 @@ class BarangResource extends Resource
                     ]),
             ]);
     }
-
 
 
 
@@ -190,10 +181,6 @@ class BarangResource extends Resource
                     ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
                 TextColumn::make('satuan.nama_satuan')->label('Satuan'),
                 TextColumn::make('jenisBarang.nama_jenis')->label('Jenis'),
-                // ->extraAttributes([
-                //     'style' => 'width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb; padding: 2px; background-color: #f9fafb;',
-                // ]),
-
             ])
             ->recordUrl(null)
             ->striped()
@@ -237,6 +224,7 @@ class BarangResource extends Resource
                                         Group::make([
                                             ImageEntry::make('gambar')
                                                 ->label('Gambar Barang')
+                                                ->disk('gambar-barang')
                                                 ->width(300)
                                                 ->height(300)
                                                 ->alignment('center')
@@ -265,13 +253,10 @@ class BarangResource extends Resource
             ]);
     }
 
-
     public static function getRelations(): array
     {
         return [];
     }
-
-
 
     public static function getPages(): array
     {

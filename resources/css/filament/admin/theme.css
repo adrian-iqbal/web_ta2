@@ -1,0 +1,12 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@config "./tailwind.config.js";
+
+/* Custom sidebar */
+/* .fi-sidebar {
+    @apply bg-red-500 text-white;
+} */
+
+
+
+
+

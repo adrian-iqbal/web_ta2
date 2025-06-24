@@ -144,20 +144,20 @@ class TransaksiResource extends Resource
                                                     }
 
                                                     return new HtmlString("
-            <div style='
-                width: 100px;
-                height: 100px;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-                overflow: hidden;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            '>
-                <img src='{$url}' style='max-width: 100%; max-height: 100%; object-fit: contain;' />
-            </div>
-        ");
-                                                }),
+                                                        <div style='
+                                                        width: 100px;
+                                                        height: 100px;
+                                                        border: 1px solid #ccc;
+                                                        border-radius: 6px;
+                                                        overflow: hidden;
+                                                        display: flex;
+                                                        align-items: center;
+                                                        justify-content: center;
+                                                    '>
+                                                        <img src='{$url}' style='max-width: 100%; max-height: 100%; object-fit: contain;' />
+                                                    </div>
+                                                ");
+                                                                                        }),
 
                                             TextInput::make('quantity')
                                                 ->label('Jumlah')
@@ -264,13 +264,12 @@ class TransaksiResource extends Resource
                                     $set('kembalian', max($bayar - $total, 0));
                                 }),
 
-
                             TextInput::make('kembalian')
                                 ->label('Kembalian')
                                 ->prefix('Rp')
                                 ->readOnly()
                                 ->default(0)
-                                ->dehydrated(true) // ⬅️ GANTI dari false ke true
+                                ->dehydrated(true) 
                                 ->dehydrateStateUsing(fn($state) => (int) preg_replace('/[^0-9]/', '', $state))
                                 ->formatStateUsing(fn($state) => number_format((int) $state, 0, ',', '.')),
                         ]),
@@ -278,11 +277,11 @@ class TransaksiResource extends Resource
         ]);
     }
 
-
     public static function getRelations(): array
     {
         return [];
     }
+
     public static function getPages(): array
     {
         return [
@@ -290,6 +289,7 @@ class TransaksiResource extends Resource
             'create' => Pages\CreateTransaksi::route('/create'),
         ];
     }
+    
     // ini buat logika kalkulator automatis
     public static function updateFormData($get, $set)
     {
